@@ -15,6 +15,10 @@ public class SimpleSideController : MonoBehaviour
 
     Animator animator;
 
+    public Joystick joystick;
+
+    float horizontalInput;
+
     SpriteRenderer spriteRenderer;
 
     public GameObject spawnPoint;
@@ -33,10 +37,22 @@ public class SimpleSideController : MonoBehaviour
     void Update()
     {
         // What Moves Us
-        float horizontalInput = Input.GetAxis("Horizontal");
+        if (joystick.Horizontal >= .2f)
+        {
+            horizontalInput = 1f;
+        } else if (joystick.Horizontal <= -.2f)
+        {
+            horizontalInput = -1f;
+        } else
+        {
+            horizontalInput = 0f;
+        }
+
+        float verticalMove = joystick.Vertical;
         //Get the value of the Horizontal input axis.
 
         transform.Translate(new Vector3(horizontalInput, 0, 0) * moveSpeed * Time.deltaTime);
+        
 
         if (horizontalInput > 0) 
         {
@@ -58,21 +74,15 @@ public class SimpleSideController : MonoBehaviour
 
     void FixedUpdate() 
     {
-        if (Input.GetButton("Jump") && isGrounded) 
+        if (joystick.Vertical >= .5f && isGrounded) 
         {
             blahblah.AddForce(transform.up * jumpForce);
             animator.SetBool("isJumping", true);
-        }
-
-        if (Input.GetButtonDown("Fire1")) 
-        {
-            animator.SetTrigger("isAttack");
-            // now instantiate the ball and propel forward
-            FireEnergyBall();
-        }
+        } 
+        
     }
 
-    void FireEnergyBall() 
+    public void FireEnergyBall() 
     {
         // the Bullet instantiation happens here
         GameObject brandNewPewPew;
@@ -90,7 +100,10 @@ public class SimpleSideController : MonoBehaviour
             // fire left, a.k.a., "negative-right"
             tempRigidBody.AddForce(-transform.right * bulletForce);
         }
+
         
+        animator.SetTrigger("isAttack");
+        // now instantiate the ball and propel forward
  
         // basic Clean Up, set the Bullets to self destruct after 5 Seconds
         Destroy(brandNewPewPew, 5.0f);
