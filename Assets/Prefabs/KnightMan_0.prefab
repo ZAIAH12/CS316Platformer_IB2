@@ -150,10 +150,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40635ed2f323e42eb82ebc6f34b99597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 5
   jumpForce: 200
   isGrounded: 0
   bulletForce: 500
+  joystick: {fileID: 0}
   spawnPoint: {fileID: 1541079098586072034}
   energyBall: {fileID: 5296377661082306864, guid: f367057594e9ea447b41164ebeabbc10, type: 3}
   fireForward: 1
